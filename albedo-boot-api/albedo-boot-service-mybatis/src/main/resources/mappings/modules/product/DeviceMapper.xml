@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.albedo.java.modules.manage.repository.DeviceRepository">
+ <!-- 设备管理mapper -->
+    <select id="getPage" resultType="Device">
+        select device_id,product_id,device_otype,device_name,device_ntype,device_state,device_lastonline,device_label,
+        device_deleted,device_imei,device_createtime,device_iot_id,imsi from bus_manage_device
+    </select>
+
+    <select id="getPageInfoById" resultType="Device">
+        select a.device_id,a.product_id,a.device_name,a.device_ntype,a.device_state,a.device_lastonline,a.device_label,
+        a.device_deleted,a.device_otype,a.device_imei,a.device_createtime,a.device_iot_id,a.imsi from bus_manage_device a
+        left join bus_manage_product b on b.product_id=a.product_id where a.product_id=#{productId} and b.product_userid=#{userid}
+    </select>
+
+
+
+    <select id="findProductId" parameterType="java.lang.String" resultType="Device" statementType="CALLABLE">
+       {call find_productid(#{deviceid,mode=IN})}
+    </select>
+
+
+    <insert id="saveInfo">
+
+    </insert>
+
+</mapper>

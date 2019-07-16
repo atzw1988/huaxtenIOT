@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.albedo.java.modules.manage.repository.CurrencyRepository">
+    <sql id="cloumns">
+    inf_id as infId,
+    inf_deviceid as infDeviceid,
+    inf_data as infData,
+    inf_addtime as infAddtime
+    </sql>
+
+
+    <select id="queryTable" parameterType="java.lang.String" resultType="Currency" statementType="STATEMENT">
+        select
+        <include refid="cloumns"></include>
+        from ${tabName}
+
+    </select>
+
+
+    <select id="existTable" parameterType="java.lang.String" resultType="Integer">
+       select count(*)
+        from information_schema.TABLES
+        where LCASE(table_name)=#{tabName}
+    </select>
+
+
+    <select id="findCount" parameterType="java.lang.String" resultType="Integer">
+       EXPLAIN select count(*) from ${tabName}
+    </select>
+
+
+    <update id="createTab" parameterType="java.lang.String">
+        <!--DROP TABLE IF EXISTS ${tabName};-->
+        CREATE TABLE ${tabName} (
+        inf_id varchar(36) NOT NULL,
+        inf_deviceid varchar(50) NOT NULL,
+        inf_data varchar (2000) NOT NULL,
+        inf_addtime date NOT NULL,
+        PRIMARY KEY (inf_id))
+    </update>
+
+    <update id="dropTable">
+        DROP TABLE IF EXISTS ${tabName}
+    </update>
+
+    <insert id="saveData" parameterType="Currency" statementType="CALLABLE">
+         {
+        call insertinfo(#{table},
+         #{currency.infId},
+         #{currency.infDeviceid},
+         #{currency.infData},
+         #{currency.infAddtime})
+         }
+
+        <!-- {CALL
+         insertinfo('info_46441396893546a29d8bb97fa671bf43_00','465464646465','1565456546','55555555','2019-05-08 14:52:41')
+         }-->
+         <!-- insert into ${tabName}(inf_id,inf_deviceid,inf_data,inf_addtime)
+          values (#{infId},#{infDeviceid},#{infData},#{infAddtime})-->
+    </insert>
+
+
+</mapper>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.albedo.java.modules.manage.repository.UserProductRepository">
+
+
+    <select id="findUrl" parameterType="UserProduct" resultType="java.lang.String">
+
+        select upro_cburl from bus_manage_upro where upro_productid=#{uproProductid} and upro_userid=#{uproUserid}
+
+    </select>
+
+
+    <insert id="saveInfo">
+        insert into bus_manage_upro(upro_productid,upro_userid,upro_cburl)
+        values (#{uproProductid},#{uproUserid},#{uproCburl})
+    </insert>
+
+
+</mapper>

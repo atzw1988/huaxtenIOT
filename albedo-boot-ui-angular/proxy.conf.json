@@ -1,0 +1,22 @@
+{
+    "/api": {
+        "target": "http://192.168.1.109:8066",
+        "secure": false
+    },
+    "/management": {
+        "target": "http://192.168.1.109:8066",
+        "secure": false
+    },
+    "/swagger": {
+        "target": "http://192.168.1.109:8066",
+        "secure": false
+    },
+    "/v2": {
+        "target": "http://192.168.1.109:8066",
+        "secure": false
+    }
+
+
+
+
+}

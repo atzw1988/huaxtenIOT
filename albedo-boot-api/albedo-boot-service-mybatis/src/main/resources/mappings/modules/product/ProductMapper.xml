@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.albedo.java.modules.manage.repository.ProductRepository">
+
+    <sql id="pageProductColumn">
+        product_id as productId,
+        product_name as productName,
+        product_edition as productEdition,
+        product_appid as productAppid,
+        <!-- product_secret as productSecret,-->
+        product_ntype as productNtype,
+        product_addtime as productAddtime,
+        product_netmodel as productNetmodel,
+        product_dataformat as productDataformat,
+        product_authentication as productAuthentication,
+        product_comments as productComments,
+        product_state as prodcutState,
+        product_dyregis as productDyregis,
+        product_labelinfo as productLabelinfo,
+        product_isaccessgateway as productIsaccessgateway,
+        created_by as `createdBy`,
+        created_date as `createdDate`,
+        last_modified_by as `lastModified`,
+        version_ as `version`,
+        description_ as `description`,
+        status_ as `status`,
+        last_modified_date as `lastModified`,
+        product_fappid as `productFappid`,
+        manufacturerid as `manufacturerid`,
+        manufacturername as `manufacturername`,
+        product_apikey as `productApikey`,
+        product_subid as `productSubid`,
+        product_callbackurl as`productCallbackurl`
+    </sql>
+
+
+    <select id="selectSecret" parameterType="Product" resultType="Product">
+        select product_secret as productSecret from bus_manage_product where product_appid=#{productAppid}
+    </select>
+
+    <select id="selectProductPage" resultType="Product">
+        select
+        <include refid="pageProductColumn"/>
+        from bus_manage_product where product_userid=(select id_ from sys_user_t where login_id=#{loginId})
+
+    </select>
+
+    <select id="findUrl" parameterType="java.lang.String" resultType="Product">
+        select
+        <include refid="pageProductColumn">
+        </include>
+        from bus_manage_product where product_id=#{productId}
+    </select>
+
+    <select id="findproductId" parameterType="java.lang.String" resultType="java.lang.String">
+        {call find_url(#{deviceId})}
+    </select>
+
+    <select id="findFatherAppId" parameterType="java.lang.String" resultType="java.lang.String">
+        select product_fappid from bus_manage_product where product_appid=#{productappid}
+    </select>
+
+    <select id="findInfoByAppId" parameterType="java.lang.String" resultType="Product">
+        select
+        <include refid="pageProductColumn"/>
+        from bus_manage_product where product_appid=#{productappid}
+    </select>
+
+    <update id="updateByAppid">
+        update bus_manage_product set product_subid=#{productSubid},product_callbackurl=#{productCallbackurl} where product_appid=#{productAppid}
+    </update>
+
+
+    <update id="updateAppid">
+        update bus_manage_product
+        set product_appid=#{productAppid},
+        product_secret=#{productSecret},
+        product_fappid=#{productFappid}
+        where product_id=#{productId}
+    </update>
+
+</mapper>
